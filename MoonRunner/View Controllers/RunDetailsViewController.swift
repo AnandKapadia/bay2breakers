@@ -27,7 +27,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
+/* Hello this is a stupid comment. */
 import UIKit
 import MapKit
 
@@ -49,6 +49,8 @@ class RunDetailsViewController: UIViewController {
   private func configureView() {
     let distance = Measurement(value: run.distance, unit: UnitLength.meters)
     let seconds = Int(run.duration)
+    let delta_distance = Measurement(value: run.delta_distance, unit: UnitLength.meters)
+    let delta_duration = Int(run.delta_duration)
     let formattedDistance = FormatDisplay.distance(distance)
     let formattedDate = FormatDisplay.date(run.timestamp)
     let formattedTime = FormatDisplay.time(seconds)

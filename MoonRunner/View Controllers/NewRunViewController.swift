@@ -48,7 +48,9 @@ class NewRunViewController: UIViewController {
   private let locationManager = LocationManager.shared
   private var seconds = 0
   private var timer: Timer?
+  private var delta_duration = 0
   private var distance = Measurement(value: 0, unit: UnitLength.meters)
+  private var delta_distance = Measurement(value: 0, unit: UnitLength.meters)
   private var locationList: [CLLocation] = []
   
   override func viewDidLoad() {
@@ -93,6 +95,8 @@ class NewRunViewController: UIViewController {
     
     seconds = 0
     distance = Measurement(value: 0, unit: UnitLength.meters)
+    delta_distance = Measurement(value: 0, unit: UnitLength.meters)
+    delta_duration = 1
     locationList.removeAll()
     updateDisplay()
     timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { _ in
@@ -183,6 +187,8 @@ extension NewRunViewController: CLLocationManagerDelegate {
       if let lastLocation = locationList.last {
         let delta = newLocation.distance(from: lastLocation)
         distance = distance + Measurement(value: delta, unit: UnitLength.meters)
+        delta_distance = Measurement(value: delta, unit: UnitLength.meters)
+        delta_duration = Int(newLocation.timestamp.timeIntervalSince(lastLocation.timestamp).rounded())
         let coordinates = [lastLocation.coordinate, newLocation.coordinate]
         mapView.add(MKPolyline(coordinates: coordinates, count: 2))
         let region = MKCoordinateRegionMakeWithDistance(newLocation.coordinate, 500, 500)
